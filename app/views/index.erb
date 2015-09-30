@@ -1,0 +1,19 @@
+<h1>URL Shortener</h1>
+
+<p>Please enter your url below:</p>
+
+<form action="/urls" method="post">
+  <input type="url" name="url">
+  <input type="submit" value="Shorten!">
+</form>
+
+<p>List of shortened URLs:</p>
+
+<form action="/delete" method="post">
+  <button type="submit">Delete!</button>
+</form>
+
+<% @url.each do |x| %>
+    <p>Original URL: <a href="<%=x.url%>"><%=x.url%></a></p>
+    <p>Shortened URL: <a href="<%=x.shortened_url%>"><%=x.shortened_url%></a></p>
+<% end %>
