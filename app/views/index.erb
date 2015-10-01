@@ -16,4 +16,5 @@
 <% @url.each do |x| %>
     <p>Original URL: <a href="<%=x.url%>"><%=x.url%></a></p>
     <p>Shortened URL: <a href="<%=x.shortened_url%>">www.jk/<%=x.shortened_url%></a></p>
+    <p>Number of clicks: <%= x.clicks %></p>
 <% end %>
