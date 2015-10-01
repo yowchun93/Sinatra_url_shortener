@@ -1,8 +1,6 @@
-
 get '/' do
   puts "[LOG] Getting /"
   puts "[LOG] Params: #{params.inspect}"
-  @shortened_url = []
   @url = Url.all.order(:id)
   erb :index
 end
@@ -17,9 +15,14 @@ end
 
 post '/urls' do
   # create a new Url
-  url = params[:url]
-  Url.shorten(url)
-  redirect to '/'
+  @new = Url.create(url: params[:url])
+  p "[LOG] Errors? = #{@new.errors.any?}"
+  if @new.errors.any?
+    @url = Url.all.order(:id)
+    erb :index
+  else
+    redirect to '/'
+  end
 end
 
 post '/delete' do

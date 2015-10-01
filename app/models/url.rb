@@ -6,11 +6,11 @@ class Url < ActiveRecord::Base
   validates :url, presence: true,
             :format => {:with => URI.regexp},
             uniqueness: true
+  before_save :shorten
 
-  def self.shorten(url)
-    key = SecureRandom.base64(4)
-    Url.create(url: url, shortened_url: key)
+  def shorten
+    short_url = SecureRandom.base64(4)
+    self.shortened_url = short_url if self.shortened_url.nil?
   end
-
 end
 
