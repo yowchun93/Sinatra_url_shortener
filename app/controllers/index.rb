@@ -10,6 +10,7 @@ end
 get '/:shortened' do
   puts "[LOG] Params: #{params.inspect}"
   url = Url.find_by(shortened_url: params[:shortened]).url
+  url.clicks += 1
   redirect to "#{url}"
 end
 
