@@ -1,7 +1,7 @@
 get '/' do
   puts "[LOG] Getting /"
   puts "[LOG] Params: #{params.inspect}"
-  @url = Url.all.order(:id)
+  @urls = Url.all.order(:id)
   erb :index
 end
 
@@ -25,9 +25,9 @@ post '/urls' do
   end
 end
 
-post '/delete' do
-  url = Url.first
-  url.delete
+post '/url/:id/delete' do
+  @url = Url.find(params[:id])
+  @url.delete
   redirect to '/'
 end
 

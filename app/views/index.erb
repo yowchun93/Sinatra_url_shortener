@@ -1,27 +1,90 @@
-<h1>URL Shortener</h1>
+<!DOCTYPE html>
 
-<p>Please enter your url below:</p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Shortener</title>
 
-<form action="/urls" method="post">
-  <input type="url" name="url">
-  <input type="submit" value="Shorten!">
-</form>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/skel.min.js"></script>
+  <script src="js/skel-layers.min.js"></script>
+  <script src="js/init.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="css/skel.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style-xlarge.css" />
+  </noscript>
+  <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+</head>
+<body class="landing">
 
-<% if @new && @new.errors.any? %>
-    <h2> Duplicate Url </h2>
-    <% @new.errors.full_messages.each do |x| %>
-    <p><%= x %></p>
-    <% end %>
-<% end %>
+<!-- Header -->
+<header id="header">
+  <h1><a href="/">URL Shortener</a></h1>
+  <nav id="nav">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html">Shortened URLs</a></li>
+    </ul>
+  </nav>
+</header>
 
-<h3>List of shortened URLs:</h3>
+<!-- Banner -->
+<section id="banner">
+  <h2>Welcome to URL Shortener</h2>
+  <p>Experience the beauty of shortened URLs here</p>
+  <form action="/urls" method="post">
+    <ul class="actions">
+      <li>
+        <!--<form method="post" action="#">-->
+          <input type="url" name="url" id="url" value="" placeholder="Paste your URL here" />
+        <!--</form>-->
+      </li>
+      <li>
+        <input type="submit" class="button fit" value="Shorten"/>
+      </li>
 
+    </ul>
+  </form>
+</section>
+
+<!-- Two -->
+<section id="two" class="wrapper style2 align-center">
+  <div class="container">
+    <header>
+      <h2>List of Shortened URLs</h2>
+    </header>
+    <div class="row">
+      <section class="feature 6u 12u$(small)">
+        <img class="image fit" src="images/pic01.jpg" alt="" />
+        <h3 class="title">Original URLs</h3>
+        <ul class="url">
+          <% @urls.each do |x| %>
+              <li><%=x.url%></li>
+              <form action="/url/<%= x.id%>/delete" method="post">
+                <li>
+                  <input type="submit" class="button alt small"/>
+                </li>
+              </form>
+          <% end %>
+        </ul>
+      </section>
+      <section class="feature 6u$ 12u$(small)">
+        <img class="image fit" src="images/pic02.jpg" alt="" />
+        <h3 class="title">Shortened URLs</h3>
+        <ul class="url">
+          <% @urls.each do |x| %>
+               <li><a href="<%=x.shortened_url%>">www.jk/<%=x.shortened_url%></a></li>
+               <li>Clicks: <%= x.clicks %></li>
+          <% end %>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+</section>
+</body>
+</html>
 <form action="/delete" method="post">
   <button type="submit">Delete!</button>
 </form>
-
-<% @url.each do |x| %>
-    <p>Original URL: <a href="<%=x.url%>"><%=x.url%></a></p>
-    <p>Shortened URL: <a href="<%=x.shortened_url%>">www.jk/<%=x.shortened_url%></a></p>
-    <p>Number of clicks: <%= x.clicks %></p>
-<% end %>
