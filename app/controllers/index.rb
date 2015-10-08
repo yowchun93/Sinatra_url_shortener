@@ -15,13 +15,17 @@ end
 
 post '/urls' do
   # create a new Url
+  puts "Post request "
   @new = Url.create(url: params[:url])
+  
   p "[LOG] Errors? = #{@new.errors.any?}"
   if @new.errors.any?
     @url = Url.all.order(:id)
     erb :index
   else
-    redirect to '/'
+    # Replaced with Json 
+    # redirect to '/'
+    return @new.to_json
   end
 end
 
